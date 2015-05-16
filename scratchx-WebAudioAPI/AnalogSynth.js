@@ -62,8 +62,8 @@
     vco1.frequency.value = 1320;
     vco1gain.gain.value = 30;
 
-    vco0.start(0);
-    vco1.start(0);
+//    vco0.start(0);
+//    vco1.start(0);
     lfo.start(0);
 
     //オブジェクトの接続
@@ -125,10 +125,10 @@
     ext.lfo_freq = function(freq) {
        lfo.frequency.value = freq;
     };
-    ext.lfo_on = function(str) {
+    ext.lfo_on = function() {
        lfo.start(0);
     };
-    ext.lfo_off = function(str) {
+    ext.lfo_off = function() {
        lfo.stop(0);
     };
     ext.vcf_freq = function(freq) {
@@ -161,5 +161,5 @@
     };
 
     // 最後にExtensionを登録する
-    ScratchExtensions.register('Simple extension', descriptor, ext);
+    ScratchExtensions.register('Web Audio API Analog Synth', descriptor, ext);
 })({});
