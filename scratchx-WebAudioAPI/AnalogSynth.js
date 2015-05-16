@@ -55,11 +55,11 @@
     vco1.connect(vco1gain); // vco1の接続先を変更、固定
 
     //オブジェクトの初期設定
-    vco0.oscillator.type = 'sine';
-    vco0.oscillator.frequency.value = 440;
+    vco0.type = 'sine';
+    vco0.frequency.value = 440;
     vco0.gain.value = 50;
-    vco1.oscillator.type = 'sine';
-    vco1.oscillator.frequency.value = 1320;
+    vco1.type = 'sine';
+    vco1.frequency.value = 1320;
     vco1.gain.value = 30;
 
     vco0.start(0);
@@ -91,34 +91,34 @@
     };
 
     ext.vco0_tone = function(freq) {
-       vco0.oscillator.frequency.value = freq;
+       vco0.frequency.value = freq;
     };
     ext.vco0_gain = function(gain) {
        vco0.gain.value = gain;
     };
     ext.vco0_wave = function(type) {
-       vco0.oscillator.type = type;
+       vco0.type = type;
     };
     ext.vco0_on = function() {
-       vco0.oscillator.start(0);
+       vco0.start(0);
     };
     ext.vco0_off = function() {
-       vco0.oscillator.stop(0);
+       vco0.stop(0);
     };
     ext.vco1_freq = function(freq) {
-       vco1.oscillator.frequency.value = freq;
+       vco1.frequency.value = freq;
     };
     ext.vco1_gain = function(gain) {
        vco1.gain.value = gain;
     };
     ext.vco1_wave = function(wtype) {
-       vco1.oscillator.type = wtype;
+       vco1.type = wtype;
     };
     ext.vco1_on = function() {
-       vco1.oscillator.start(0);
+       vco1.start(0);
     };
     ext.vco1_off = function() {
-       vco1.oscillator.stop(0);
+       vco1.stop(0);
     };
     ext.lfo_freq = function(freq) {
        lfo.frequency.value = freq;
