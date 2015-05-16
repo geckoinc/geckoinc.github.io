@@ -88,20 +88,22 @@
     };
     ext.obj_defaultConnection = function() {
     	vco0.disconnect();
-    	vco0.connect(gain0);
     	vco1.disconnect();
-    	vco1.connect(gain1);
     	gain0.disconnect();
-    	gain0.connect(vcf);
     	gain1.disconnect();
-    	gain1.connect(vcf);
 		lfo.disconnect()
+    	vcf.disconnect();
+    	vcfgain.disconnect();
+    	gain0.cancelScheduledValues(0);
+    	gain1.cancelScheduledValues(0);
+    	vco0.connect(gain0);
+    	vco1.connect(gain1);
+    	gain0.connect(vcf);
+    	gain1.connect(vcf);
     	lfo.connect(vco0.frequency);
     	lfo.connect(vco1.frequency);
     	lfo.connect(vcf.detune);
-    	vcf.disconnect();
     	vcf.connect(vcfgain);
-    	vcfgain.disconnect();
     	vcfgain.connect(output);
     };
     ext.obj_wait = function(ms, callback) {
@@ -120,6 +122,7 @@
        eval(obj).type = wtype;
     };
     ext.obj_gain = function(obj, gain) {
+       eval(obj).gain.cancelScheduledValues(0);
        eval(obj).gain.value = gain;
     };
     ext.obj_gain_env = function(obj, a, d, s, sp, r) {
