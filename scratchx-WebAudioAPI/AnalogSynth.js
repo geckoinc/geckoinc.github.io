@@ -125,15 +125,15 @@
     };
     ext.obj_gain = function(obj, gain) {
        eval(obj).gain.cancelScheduledValues(0);
-       eval(obj).gain.value = gain;
+       eval(obj).gain.value = gain / 100;
     };
-    ext.obj_gain_env = function(obj, a, d, s, sp, r) {
+    ext.obj_gain_env = function(obj, vol, a, d, s, sp, r) {
        var now = audioctx.currentTime;
        eval(obj).gain.cancelScheduledValues(0);
        eval(obj).gain.setValueAtTime(0.0, now);
-       eval(obj).gain.linearRampToValueAtTime(1.0, now + a);
-       eval(obj).gain.linearRampToValueAtTime(sp , now + a + d);
-       eval(obj).gain.linearRampToValueAtTime(sp , now + a + d + s);
+       eval(obj).gain.linearRampToValueAtTime(vol / 100, now + a);
+       eval(obj).gain.linearRampToValueAtTime(vol / 100 * sp , now + a + d);
+       eval(obj).gain.linearRampToValueAtTime(vol / 100 * sp , now + a + d + s);
        eval(obj).gain.linearRampToValueAtTime(0.0 , now + a + d + s + r);
 //       eval(obj).gain.cancelScheduledValues(now + a + d + s + r);
     }; 
@@ -161,7 +161,7 @@
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
             [' ', '%m.gainNode set Volume %n', 'obj_gain', 'gain0', 30],
-            [' ', '%m.gainNode set Env a %n, d %n, s %n, sp %n, r %n', 'obj_gain_env', 'gain0', 0.1, 0.3, 0.5, 0.3, 0.3],
+            [' ', '%m.gainNode set Env Vol %n, Atk %n, Dis %n, Sus %n, Susp %n, Rel %n', 'obj_gain_env', 'gain0', 30, 0.1, 0.3, 0.5, 0.3, 0.3],
             [' ', '%m.audioNode connect %m.allNode', 'obj_connect', 'vco0', 'vcf'],
             [' ', '%m.audioNode connect param %m.nodeParam in %m.audioNode param ', 'obj_connectParam', 'lfo', 'detune', 'vcf'],
             [' ', '%m.audioNode disconnect', 'obj_disconnect', 'vco1']
