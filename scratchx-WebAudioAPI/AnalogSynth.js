@@ -145,26 +145,26 @@ s
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', '%m.node set Freq %n Hz', 'obj_wave', 'vco0','440'],
-            [' ', 'vco0 On', 'vco0_on'],
-            [' ', 'vco0 Off', 'vco0_off'],
+            [' ', '%m.allNode set Freq %n Hz', 'obj_wave', 'vco0','440'],
+//            [' ', 'vco0 On', 'vco0_on'],
+//            [' ', 'vco0 Off', 'vco0_off'],
             [' ', 'vco0 set Freq %n Hz', 'vco0_freq', 440],
             [' ', 'vco0 set detune %n cent', 'vco0_detune', 440],
             [' ', 'vco0 set Volume %n', 'vco0_gain', 50],
             [' ', 'vco0 set WaveType %m.waveType', 'vco0_wave', 'sine'],
-            [' ', 'vco1 On', 'vco1_on'],
-            [' ', 'vco1 Off', 'vco1_off'],
+//            [' ', 'vco1 On', 'vco1_on'],
+//            [' ', 'vco1 Off', 'vco1_off'],
             [' ', 'vco1 set Freq %n Hz', 'vco1_freq', 440],
             [' ', 'vco1 set Volume %n', 'vco1_gain', 50],
             [' ', 'vco1 set WaveType %m.waveType', 'vco1_wave', 'sine'],
             [' ', 'lfo set Freq %n Hz', 'lfo_freq', 2],
-            [' ', 'lfo On', 'lfo_on'],
-            [' ', 'lfo Off', 'lfo_off'],
+//            [' ', 'lfo On', 'lfo_on'],
+//            [' ', 'lfo Off', 'lfo_off'],
             [' ', 'vcf set Freq %n Hz', 'vcf_freq', 8000]
         ],
         menus: {
             waveType: ["sine", "square", "sawtooth", "triangle"],
-            node: ["vco0", "vco1", "lfo", "vcf"]
+            allNode: ["vco0", "vco1", "lfo", "vcf"]
         }
     };
 
