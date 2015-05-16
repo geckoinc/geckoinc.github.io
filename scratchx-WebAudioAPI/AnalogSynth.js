@@ -105,7 +105,7 @@
     	vcfgain.connect(output);
     };
     ext.obj_wait = function(ms, callback) {
-        console.log('Waiting for ' + ms + ' seconds');
+//        console.log('Waiting for ' + ms + ' seconds');
         window.setTimeout(function() {
             callback();
         }, ms);
