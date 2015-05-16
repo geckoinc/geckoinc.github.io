@@ -67,6 +67,8 @@
     lfo.start(0);
 
     //オブジェクトの接続
+    vco0gain.connect(vcf);
+    vco1gain.connect(vcf);
     lfo.connect(vco0.frequency);
     lfo.connect(vco1.frequency);
     lfo.connect(vcf.detune);
