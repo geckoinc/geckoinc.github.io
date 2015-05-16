@@ -122,7 +122,7 @@
         blocks: [
             // Block type, block name, function name
             [' ', 'All audioNodes set Volume 0', 'obj_vol0'],
-            [' ', 'Wait %n ms, 'wait_ms','100'],
+            [' ', 'Wait %n ms', 'wait_ms', 100],
             [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0',440],
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
