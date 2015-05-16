@@ -1,5 +1,6 @@
 ﻿/*
  * ScratchX with WebAudioAPI
+ * http://scratchx.org/?url=http://geckoinc.github.io/scratchx-WebAudioAPI/AnalogSynth.js
  * Please check your Web browser Plugin for Web Audio
  * Thanks to 
  * Yokobond San (http://yokobond.github.io/scratchx-audio/)
@@ -27,11 +28,11 @@
 
     //PitchShift（ピッチシフト）オブジェクト
 
-    var psin=audioctx.createGain();
-    var psout=audioctx.createGain();
-    var pshift=new pitchShift(audioctx);
-    psin.connect(pshift.getSrc());
-    pshift.connect(psout);
+//    var psin=audioctx.createGain();
+//  var psout=audioctx.createGain();
+//    var pshift=new pitchShift(audioctx);
+//    psin.connect(pshift.getSrc());
+//    pshift.connect(psout);
 
     //Delay（残響）オブジェクト
 
