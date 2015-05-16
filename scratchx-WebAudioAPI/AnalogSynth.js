@@ -104,5 +104,5 @@
     };
 
     // 最後にExtensionを登録する
-    ScratchExtensions.register('Web Audio API Analog Synth', descriptor, ext);
+    ScratchExtensions.register('Web Audio API 2osc Analog Synth', descriptor, ext);
 })({});
