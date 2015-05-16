@@ -14,7 +14,6 @@
 
     // ブロックは複数定義することが出来る。
     //それぞれのブロックで共有したい変数やオブジェクトをここで定義
-
     var audioctx;
     //SafariなどのwebKitを使うブラウザと、AudioContextを持つブラウザを判定。
     //おそらく今の状態だとIEは使えない
@@ -131,7 +130,8 @@
        eval(obj).gain.linearRampToValueAtTime(sp , now + a + d);
        eval(obj).gain.linearRampToValueAtTime(sp , now + a + d + s);
        eval(obj).gain.linearRampToValueAtTime(0.0 , now + a + d + s + r);
-    };
+       eval(obj).gain.cancelScheduledValues(now + a + d + s + r);
+    }; 
     ext.obj_detune = function(obj, diffcent) {
        eval(obj).detune.value = diffcent;
     };
