@@ -36,11 +36,11 @@
 
     //Delay（残響）オブジェクト
 
-    var delayin=audioctx.createGain();
-    var delayout=audioctx.createGain();
-    var delay=new delayProcess(audioctx);
-    delayin.connect(delay.getSrc());
-    delay.connect(delayout);
+//    var delayin=audioctx.createGain();
+//    var delayout=audioctx.createGain();
+//    var delay=new delayProcess(audioctx);
+//    delayin.connect(delay.getSrc());
+//    delay.connect(delayout);
 
     //音を発生するOscillatorの定義
     var vco0, vco1, lfo, vcf;
