@@ -123,6 +123,13 @@
     ext.obj_gain = function(obj, gain) {
        eval(obj).gain.value = gain;
     };
+    ext.obj_gain_env = function(obj, a, d, s, r) {
+       var now=ctx.currentTime;
+       eval(obj).gain.cancelScheduledValues(0);
+       eval(obj).gain.setValueAtTime(0.0, now);
+       eval(obj).gain.linearRampToValueAtTime(rootValue0, now + a);
+       eval(obj).gain.linearRampToValueAtTime(s * 0.9, now + a + d);
+    };
     ext.obj_detune = function(obj, diffcent) {
        eval(obj).detune.value = diffcent;
     };
@@ -147,6 +154,7 @@
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
             [' ', '%m.gainNode set Volume %n', 'obj_gain', 'gain0', 30],
+            [' ', '%m.gainNode set Env %n,%n,%n,%n', 'obj_gain_env', 'gain0', 0.1, 0.3, 0.5, 0.3],
             [' ', '%m.audioNode connect %m.allNode', 'obj_connect', 'vco0', 'vcf'],
             [' ', '%m.audioNode connect param %m.nodeParam in %m.audioNode param ', 'obj_connectParam', 'lfo', 'detune', 'vcf'],
             [' ', '%m.audioNode disconnect', 'obj_disconnect', 'vco1']
