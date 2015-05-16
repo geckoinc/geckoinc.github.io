@@ -157,7 +157,7 @@ s
             [' ', 'vco1 set Freq %n Hz', 'vco1_freq', 440],
             [' ', 'vco1 set Volume %n', 'vco1_gain', 50],
             [' ', 'vco1 set WaveType %m.waveType', 'vco1_wave', 'sine'],
-            [' ', 'lfo set Freq %n' Hz, 'lfo_freq', 2],
+            [' ', 'lfo set Freq %n Hz', 'lfo_freq', 2],
             [' ', 'lfo On', 'lfo_on'],
             [' ', 'lfo Off', 'lfo_off'],
             [' ', 'vcf set Freq %n Hz', 'vcf_freq', 8000]
