@@ -76,21 +76,21 @@
     ext.obj_freq = function(obj,freq) {
        eval(obj).frequency.value = freq;
     };
-    ext.obj_freq = function(obj,wtype) {
+    ext.obj_wave = function(obj,wtype) {
        eval(obj).type = wtype;
     };
     ext.obj_gain = function(obj,gain) {
        eval(obj + "gain").gain.value = gain;
     };
     ext.obj_detune = function(obj,diffcent) {
-       eval(obj).detune = diffcent;
+       eval(obj).detune.value = diffcent;
     };
 
     // ブロックと関数のひも付け
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0','440'],
+            [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0',440],
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
             [' ', '%m.waveNode set Volume %n', 'obj_gain', 'vco0', 30]
