@@ -25,39 +25,48 @@
         audioctx = new AudioContext();
     }
 
-    //音を発生するOscillatorの定義
+    //audioNodeの定義、別名定義
     var vco0, vco1, lfo, vcf;
+    var output = audioctx.destination;
+
+
+    //音を発生するOscillatorの定義し、
+    //音量調整用のGainNodeを追加
     vco0=audioctx.createOscillator();
     vco1=audioctx.createOscillator();
-    lfo=audioctx.createOscillator();
-    vcf=audioctx.createBiquadFilter();
-    // GainNodeを追加
-    vco0gain=audioctx.createGain();
-    vco1gain=audioctx.createGain();
-    vco0.connect(vco0gain); // vco0の接続先を変更、固定
-    vco1.connect(vco1gain); // vco1の接続先を変更、固定
+    gain0=audioctx.createGain();
+    gain1=audioctx.createGain();
+    vco0.connect(gain0); // vco0の接続先を変更、固定
+    vco1.connect(gain1); // vco1の接続先を変更、固定
 
     //オブジェクトの初期設定
     vco0.type = 'sine';
     vco0.frequency.value = 440;
-    vco0gain.gain.value = 10;
+    gain0.gain.value = 10;
     vco1.type = 'sine';
     vco1.frequency.value = 220;
-    vco1gain.gain.value = 10;
+    gain1.gain.value = 10;
+
+    lfo=audioctx.createOscillator();
+    vcf=audioctx.createBiquadFilter();
+	vcfgain=audioctx.createGain();
 
     vco0.start(0);
     vco1.start(0);
     lfo.start(0);
 
     //オブジェクトの接続
-    vco0gain.connect(vcf);
-    vco1gain.connect(vcf);
+    gain0.connect(vcf);
+    gain1.connect(vcf);
+
     lfo.connect(vco0.frequency);
     lfo.connect(vco1.frequency);
     lfo.connect(vcf.detune);
-    vcf.connect(audioctx.destination);
+    vcf.connect(vcfgain);
+    vcfgain.gain.value = 100;
+    vcfgain.connect(output);
 
-    //最後のaudioctx.destinationは、実際に音を発するために利用する部分
+    //最後のoutputはaudioctx.destinationの別名、実際に音を発するために利用する部分
 
     // shutdown時に呼ばれる
     ext._shutdown = function() {
@@ -73,33 +82,62 @@
     // blockが呼び出された時に呼ばれる関数を登録する。
     // 下にあるdescriptorでブロックと関数のひも付けを行っている。
 
-    ext.obj_freq = function(obj,freq) {
+    ext.obj_vol0 = function() {
+       vco0.frequency.value = 0;
+       vco1.frequency.value = 0;
+    };
+    ext.wait_ms = function(ms) {
+		var c = 0;
+		var repeatTask = setInterval(function(){
+			c++;
+			if(c == 1){
+				clearInterval(repeatTask);
+			}
+		},ms);
+    };
+    ext.obj_freq = function(obj, freq) {
        eval(obj).frequency.value = freq;
     };
-    ext.obj_wave = function(obj,wtype) {
+    ext.obj_wave = function(obj, wtype) {
        eval(obj).type = wtype;
     };
-    ext.obj_gain = function(obj,gain) {
-       eval(obj + "gain").gain.value = gain;
+    ext.obj_gain = function(obj, gain) {
+       eval(obj).gain.value = gain;
     };
-    ext.obj_detune = function(obj,diffcent) {
+    ext.obj_detune = function(obj, diffcent) {
        eval(obj).detune.value = diffcent;
+    };
+   ext.obj_connect = function(obj, toobj) {
+       eval(obj).connect(eval(toobj));
+    };
+   ext.obj_connectParam = function(obj, param, toobj) {
+       eval(obj).connect(eval(toobj+"."+param));
+    };
+   ext.obj_disconnect = function(obj) {
+       eval(obj).disconnect();
     };
 
     // ブロックと関数のひも付け
     var descriptor = {
         blocks: [
             // Block type, block name, function name
+            [' ', 'All audioNodes set Volume 0', 'obj_vol0'],
+            [' ', 'Wait %n ms, 'wait_ms','100'],
             [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0',440],
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
-            [' ', '%m.waveNode set Volume %n', 'obj_gain', 'vco0', 30]
-        ],
+            [' ', '%m.gainNode set Volume %n', 'obj_gain', 'gain0', 30],
+            [' ', '%m.audioNode connect %m.allNode', 'obj_connect', 'vco0', 'vcf'],
+            [' ', '%m.audioNode connect param %m.nodeParam in %m.audioNode param ', 'obj_connectParam', 'lfo', 'detune', 'vcf'],
+            [' ', '%m.audioNode disconnect', 'obj_disconnect', 'vco1']
+        ]
         menus: {
             waveType: ["sine", "square", "sawtooth", "triangle"],
-            allNode: ["vco0", "vco1", "lfo", "vcf", "Out", "None"],
+            allNode: ["vco0", "vco1", "gain0", "gain1", "lfo", "vcf","vcfgain", "output"],
             audioNode: ["vco0", "vco1", "lfo", "vcf"],
-            waveNode: ["vco0", "vco1"]
+            waveNode: ["vco0", "vco1"],
+            gainNode: ["gain0", "gain1", "vcfgain"],
+            nodeParam: ["frequency", "detune"]
         }
     };
 
