@@ -123,6 +123,7 @@
     ext.obj_gain = function(obj, gain) {
        eval(obj).gain.value = gain;
     };
+<<<<<<< HEAD
     ext.obj_gain_env = function(obj, a, d, s, sp, r) {
        var now = audioctx.currentTime;
        eval(obj).gain.cancelScheduledValues(0);
@@ -131,6 +132,14 @@
        eval(obj).gain.linearRampToValueAtTime(sp , now + a + d);
        eval(obj).gain.linearRampToValueAtTime(sp , now + a + d + s);
        eval(obj).gain.linearRampToValueAtTime(0.0 , now + a + d + s + r);
+=======
+    ext.obj_gain_env = function(obj, a, d, s, r) {
+       var now=ctx.currentTime;
+       eval(obj).gain.cancelScheduledValues(0);
+       eval(obj).gain.setValueAtTime(0.0, now);
+       eval(obj).gain.linearRampToValueAtTime(rootValue0, now + a);
+       eval(obj).gain.linearRampToValueAtTime(s * 0.9, now + a + d);
+>>>>>>> origin/master
     };
     ext.obj_detune = function(obj, diffcent) {
        eval(obj).detune.value = diffcent;
@@ -156,7 +165,11 @@
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
             [' ', '%m.gainNode set Volume %n', 'obj_gain', 'gain0', 30],
+<<<<<<< HEAD
             [' ', '%m.gainNode set Env a %n, d %n, s %n, sp %n, r %n', 'obj_gain_env', 'gain0', 0.1, 0.3, 0.5, 0.3, 0.3],
+=======
+            [' ', '%m.gainNode set Env %n,%n,%n,%n', 'obj_gain_env', 'gain0', 0.1, 0.3, 0.5, 0.3],
+>>>>>>> origin/master
             [' ', '%m.audioNode connect %m.allNode', 'obj_connect', 'vco0', 'vcf'],
             [' ', '%m.audioNode connect param %m.nodeParam in %m.audioNode param ', 'obj_connectParam', 'lfo', 'detune', 'vcf'],
             [' ', '%m.audioNode disconnect', 'obj_disconnect', 'vco1']
