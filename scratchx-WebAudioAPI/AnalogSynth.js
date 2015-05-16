@@ -83,8 +83,10 @@
     // 下にあるdescriptorでブロックと関数のひも付けを行っている。
 
     ext.obj_vol0 = function() {
-       vco0.frequency.value = 0;
-       vco1.frequency.value = 0;
+       gain0.gain.cancelScheduledValues(0);
+       gain0.gain.value = 0;
+       gain1.gain.cancelScheduledValues(0);
+       gain1.gain.value = 0;
     };
     ext.obj_defaultConnection = function() {
     	vco0.disconnect();
@@ -133,7 +135,7 @@
        eval(obj).gain.linearRampToValueAtTime(sp , now + a + d);
        eval(obj).gain.linearRampToValueAtTime(sp , now + a + d + s);
        eval(obj).gain.linearRampToValueAtTime(0.0 , now + a + d + s + r);
-       eval(obj).gain.cancelScheduledValues(now + a + d + s + r);
+//       eval(obj).gain.cancelScheduledValues(now + a + d + s + r);
     }; 
     ext.obj_detune = function(obj, diffcent) {
        eval(obj).detune.value = diffcent;
