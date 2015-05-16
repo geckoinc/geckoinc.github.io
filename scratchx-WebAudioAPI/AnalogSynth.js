@@ -36,8 +36,9 @@
     vco1=audioctx.createOscillator();
     gain0=audioctx.createGain();
     gain1=audioctx.createGain();
-    vco0.connect(gain0); // vco0の接続先を変更、固定
-    vco1.connect(gain1); // vco1の接続先を変更、固定
+    lfo=audioctx.createOscillator();
+    vcf=audioctx.createBiquadFilter();
+	vcfgain=audioctx.createGain();
 
     //オブジェクトの初期設定
     vco0.type = 'sine';
@@ -46,25 +47,22 @@
     vco1.type = 'sine';
     vco1.frequency.value = 220;
     gain1.gain.value = 10;
-
-    lfo=audioctx.createOscillator();
-    vcf=audioctx.createBiquadFilter();
-	vcfgain=audioctx.createGain();
-
-    vco0.start(0);
-    vco1.start(0);
-    lfo.start(0);
+    vcfgain.gain.value = 100;
 
     //オブジェクトの接続
+    vco0.connect(gain0);
+    vco1.connect(gain1);
     gain0.connect(vcf);
     gain1.connect(vcf);
-
     lfo.connect(vco0.frequency);
     lfo.connect(vco1.frequency);
     lfo.connect(vcf.detune);
     vcf.connect(vcfgain);
-    vcfgain.gain.value = 100;
     vcfgain.connect(output);
+
+    vco0.start(0);
+    vco1.start(0);
+    lfo.start(0);
 
     //最後のoutputはaudioctx.destinationの別名、実際に音を発するために利用する部分
 
@@ -83,6 +81,24 @@
     // 下にあるdescriptorでブロックと関数のひも付けを行っている。
 
     ext.obj_vol0 = function() {
+    	vco0.disconnect();
+    	vco0.connect(gain0);
+    	vco1.disconnect();
+    	vco1.connect(gain1);
+    	gain0.disconnect();
+    	gain0.connect(vcf);
+    	gain1.disconnect();
+    	gain1.connect(vcf);
+		lfo.disconnect()
+    	lfo.connect(vco0.frequency);
+    	lfo.connect(vco1.frequency);
+    	lfo.connect(vcf.detune);
+    	vcf.disconnect();
+    	vcf.connect(vcfgain);
+    	vcfgain.disconnect();
+    	vcfgain.connect(output);
+    };
+    ext.obj_defaultConnection = function() {
        vco0.frequency.value = 0;
        vco1.frequency.value = 0;
     };
@@ -122,6 +138,7 @@
         blocks: [
             // Block type, block name, function name
             [' ', 'All audioNodes set Volume 0', 'obj_vol0'],
+            [' ', 'All audioNodes set default connection', 'obj_defaultConnection'],
             [' ', 'Wait %n ms', 'wait_ms', 100],
             [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0',440],
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
