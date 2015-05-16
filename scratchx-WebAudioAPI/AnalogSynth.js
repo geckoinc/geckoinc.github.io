@@ -57,10 +57,10 @@
     //オブジェクトの初期設定
     vco0.type = 'sine';
     vco0.frequency.value = 440;
-    vco0.gain.value = 50;
+    vco0gain.gain.value = 50;
     vco1.type = 'sine';
     vco1.frequency.value = 1320;
-    vco1.gain.value = 30;
+    vco1gain.gain.value = 30;
 
     vco0.start(0);
     vco1.start(0);
@@ -94,7 +94,7 @@
        vco0.frequency.value = freq;
     };
     ext.vco0_gain = function(gain) {
-       vco0.gain.value = gain;
+       vco0gain.gain.value = gain;
     };
     ext.vco0_wave = function(type) {
        vco0.type = type;
@@ -109,7 +109,7 @@
        vco1.frequency.value = freq;
     };
     ext.vco1_gain = function(gain) {
-       vco1.gain.value = gain;
+       vco1gain.gain.value = gain;
     };
     ext.vco1_wave = function(wtype) {
        vco1.type = wtype;
