@@ -130,7 +130,7 @@
             [' ', '%m.audioNode connect %m.allNode', 'obj_connect', 'vco0', 'vcf'],
             [' ', '%m.audioNode connect param %m.nodeParam in %m.audioNode param ', 'obj_connectParam', 'lfo', 'detune', 'vcf'],
             [' ', '%m.audioNode disconnect', 'obj_disconnect', 'vco1']
-        ]
+        ],
         menus: {
             waveType: ["sine", "square", "sawtooth", "triangle"],
             allNode: ["vco0", "vco1", "gain0", "gain1", "lfo", "vcf","vcfgain", "output"],
