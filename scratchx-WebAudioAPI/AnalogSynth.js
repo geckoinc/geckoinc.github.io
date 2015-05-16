@@ -6,6 +6,7 @@
  * Yokobond San (http://yokobond.github.io/scratchx-audio/)
  * Mactkg San (http://mactkg.hateblo.jp/)
  * Kawai San (https://html5experts.jp/ryoyakawai/12569/)
+ * ...and ScratchX Document.
  */
 
 
