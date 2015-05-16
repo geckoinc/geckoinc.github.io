@@ -60,9 +60,11 @@
     //最後のaudioctx.destinationは、実際に音を発するために利用する部分
 
     // shutdown時に呼ばれる
-    ext._shutdown = function() {};
+    ext._shutdown = function() {
 		vco0.stop(0);
 		vco1.stop(0);
+	};
+
     // statusを返してやる。デバイスとつながってない時とかここで色々返せる。
     ext._getStatus = function() {
         return {status: 2, msg: 'Ready'};
@@ -95,7 +97,7 @@
         ],
         menus: {
             waveType: ["sine", "square", "sawtooth", "triangle"],
-            allNode: ["vco0", "vco1", "lfo", "vcf","Out","None"],
+            allNode: ["vco0", "vco1", "lfo", "vcf", "Out", "None"],
             audioNode: ["vco0", "vco1", "lfo", "vcf"],
             waveNode: ["vco0", "vco1"]
         }
