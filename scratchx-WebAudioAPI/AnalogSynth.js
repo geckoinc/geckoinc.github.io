@@ -81,6 +81,10 @@
     // 下にあるdescriptorでブロックと関数のひも付けを行っている。
 
     ext.obj_vol0 = function() {
+       vco0.frequency.value = 0;
+       vco1.frequency.value = 0;
+    };
+    ext.obj_defaultConnection = function() {
     	vco0.disconnect();
     	vco0.connect(gain0);
     	vco1.disconnect();
@@ -97,10 +101,6 @@
     	vcf.connect(vcfgain);
     	vcfgain.disconnect();
     	vcfgain.connect(output);
-    };
-    ext.obj_defaultConnection = function() {
-       vco0.frequency.value = 0;
-       vco1.frequency.value = 0;
     };
     ext.wait_ms = function(ms) {
 		var c = 0;
@@ -138,8 +138,8 @@
         blocks: [
             // Block type, block name, function name
             [' ', 'All audioNodes set Volume 0', 'obj_vol0'],
-            [' ', 'All audioNodes set default connection', 'obj_defaultConnection'],
-            [' ', 'Wait %n ms', 'wait_ms', 100],
+            [' ', 'All audioNodes reset connection', 'obj_defaultConnection'],
+//            [' ', 'Wait %n ms', 'wait_ms', 100],
             [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0',440],
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
@@ -151,7 +151,7 @@
         menus: {
             waveType: ["sine", "square", "sawtooth", "triangle"],
             allNode: ["vco0", "vco1", "gain0", "gain1", "lfo", "vcf","vcfgain", "output"],
-            audioNode: ["vco0", "vco1", "lfo", "vcf"],
+            audioNode: ["vco0", "vco1", "gain0", "gain1", "lfo", "vcf"],
             waveNode: ["vco0", "vco1"],
             gainNode: ["gain0", "gain1", "vcfgain"],
             nodeParam: ["frequency", "detune"]
