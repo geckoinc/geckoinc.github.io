@@ -25,23 +25,6 @@
         audioctx = new AudioContext();
     }
 
-
-    //PitchShift（ピッチシフト）オブジェクト
-
-//    var psin=audioctx.createGain();
-//  var psout=audioctx.createGain();
-//    var pshift=new pitchShift(audioctx);
-//    psin.connect(pshift.getSrc());
-//    pshift.connect(psout);
-
-    //Delay（残響）オブジェクト
-
-//    var delayin=audioctx.createGain();
-//    var delayout=audioctx.createGain();
-//    var delay=new delayProcess(audioctx);
-//    delayin.connect(delay.getSrc());
-//    delay.connect(delayout);
-
     //音を発生するOscillatorの定義
     var vco0, vco1, lfo, vcf;
     vco0=audioctx.createOscillator();
@@ -61,7 +44,7 @@
     vco1.type = 'sine';
     vco1.frequency.value = 220;
     vco1gain.gain.value = 10;
-s
+
     vco0.start(0);
     vco1.start(0);
     lfo.start(0);
@@ -74,14 +57,12 @@ s
     lfo.connect(vcf.detune);
     vcf.connect(audioctx.destination);
 
-//   vcf.connect(psin);
-//    psout.connect(delayin);
-//    delayout.connect(audioctx.destination);
     //最後のaudioctx.destinationは、実際に音を発するために利用する部分
 
     // shutdown時に呼ばれる
     ext._shutdown = function() {};
-
+		vco0.stop(0);
+		vco1.stop(0);
     // statusを返してやる。デバイスとつながってない時とかここで色々返せる。
     ext._getStatus = function() {
         return {status: 2, msg: 'Ready'};
@@ -93,78 +74,30 @@ s
     ext.obj_freq = function(obj,freq) {
        eval(obj).frequency.value = freq;
     };
-
-    ext.vco0_freq = function(freq) {
-       vco0.frequency.value = freq;
+    ext.obj_freq = function(obj,wtype) {
+       eval(obj).type = wtype;
     };
-    ext.vco0_gain = function(gain) {
-       vco0gain.gain.value = gain;
+    ext.obj_gain = function(obj,gain) {
+       eval(obj + "gain").gain.value = gain;
     };
-    ext.vco0_detune = function(diffcent) {
-       vco0.detune = diffcent;
+    ext.obj_detune = function(obj,diffcent) {
+       eval(obj).detune = diffcent;
     };
-    ext.vco0_wave = function(wtype) {
-       vco0.type = wtype;
-    };
-    ext.vco0_on = function() {
-       vco0.start(0);
-    };
-    ext.vco0_off = function() {
-       vco0.stop(0);
-    };
-    ext.vco1_freq = function(freq) {
-       vco1.frequency.value = freq;
-    };
-    ext.vco1_gain = function(gain) {
-       vco1gain.gain.value = gain;
-    };
-    ext.vco1_wave = function(wtype) {
-       vco1.type = wtype;
-    };
-    ext.vco1_on = function() {
-       vco1.start(0);
-    };
-    ext.vco1_off = function() {
-       vco1.stop(0);
-    };
-    ext.lfo_freq = function(freq) {
-       lfo.frequency.value = freq;
-    };
-    ext.lfo_on = function() {
-       lfo.start(0);
-    };
-    ext.lfo_off = function() {
-       lfo.stop(0);
-    };
-    ext.vcf_freq = function(freq) {
-       vcf.frequency.value = freq;
-    };
-
 
     // ブロックと関数のひも付け
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', '%m.allNode set Freq %n Hz', 'obj_wave', 'vco0','440'],
-//            [' ', 'vco0 On', 'vco0_on'],
-//            [' ', 'vco0 Off', 'vco0_off'],
-            [' ', 'vco0 set Freq %n Hz', 'vco0_freq', 440],
-            [' ', 'vco0 set detune %n cent', 'vco0_detune', 440],
-            [' ', 'vco0 set Volume %n', 'vco0_gain', 50],
-            [' ', 'vco0 set WaveType %m.waveType', 'vco0_wave', 'sine'],
-//            [' ', 'vco1 On', 'vco1_on'],
-//            [' ', 'vco1 Off', 'vco1_off'],
-            [' ', 'vco1 set Freq %n Hz', 'vco1_freq', 440],
-            [' ', 'vco1 set Volume %n', 'vco1_gain', 50],
-            [' ', 'vco1 set WaveType %m.waveType', 'vco1_wave', 'sine'],
-            [' ', 'lfo set Freq %n Hz', 'lfo_freq', 2],
-//            [' ', 'lfo On', 'lfo_on'],
-//            [' ', 'lfo Off', 'lfo_off'],
-            [' ', 'vcf set Freq %n Hz', 'vcf_freq', 8000]
+            [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0','440'],
+            [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
+            [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
+            [' ', '%m.waveNode set Volume %n', 'obj_gain', 'vco0', 30]
         ],
         menus: {
             waveType: ["sine", "square", "sawtooth", "triangle"],
-            allNode: ["vco0", "vco1", "lfo", "vcf"]
+            allNode: ["vco0", "vco1", "lfo", "vcf","Out","None"],
+            audioNode: ["vco0", "vco1", "lfo", "vcf"],
+            waveNode: ["vco0", "vco1"]
         }
     };
 
