@@ -43,10 +43,10 @@
     //オブジェクトの初期設定
     vco0.type = 'sine';
     vco0.frequency.value = 440;
-    gain0.gain.value = 10;
+    gain0.gain.value = 0;
     vco1.type = 'sine';
     vco1.frequency.value = 220;
-    gain1.gain.value = 10;
+    gain1.gain.value = 0;
     vcfgain.gain.value = 100;
 
     //オブジェクトの接続
@@ -60,11 +60,13 @@
     vcf.connect(vcfgain);
     vcfgain.connect(output);
 
+    //最後のoutputはaudioctx.destinationの別名、実際に音を発するために利用する部分
+
+    //オブジェクト実行
     vco0.start(0);
     vco1.start(0);
     lfo.start(0);
 
-    //最後のoutputはaudioctx.destinationの別名、実際に音を発するために利用する部分
 
     // shutdown時に呼ばれる
     ext._shutdown = function() {
@@ -102,14 +104,14 @@
     	vcfgain.disconnect();
     	vcfgain.connect(output);
     };
-    ext.wait_ms = function(ms) {
-		var c = 0;
-		var repeatTask = setInterval(function(){
-			c++;
-			if(c == 1){
-				clearInterval(repeatTask);
-			}
-		},ms);
+    ext.obj_wait = function(ms) {
+        console.log('Waiting for ' + ms + ' seconds');
+        window.setTimeout(function() {
+            callback();
+        }, ms);
+    };
+    ext.obj_power = function(base, exponent) {
+        return Math.pow(base, exponent);
     };
     ext.obj_freq = function(obj, freq) {
        eval(obj).frequency.value = freq;
@@ -132,14 +134,14 @@
    ext.obj_disconnect = function(obj) {
        eval(obj).disconnect();
     };
-
     // ブロックと関数のひも付け
     var descriptor = {
         blocks: [
             // Block type, block name, function name
             [' ', 'All audioNodes set Volume 0', 'obj_vol0'],
             [' ', 'All audioNodes reset connection', 'obj_defaultConnection'],
-//            [' ', 'Wait %n ms', 'wait_ms', 100],
+            ['w', 'wait for %n ms', 'obj_wait', 100],
+            ['r', '%n ^ %n','obj_power', 2, 0.5],
             [' ', '%m.audioNode set Freq %n Hz', 'obj_freq', 'vco0',440],
             [' ', '%m.waveNode set WaveType %m.waveType', 'obj_wave', 'vco0', 'sine'],
             [' ', '%m.waveNode set Detune %n cent', 'obj_detune', 'vco0', 0],
