@@ -92,14 +92,14 @@
     ext.vco0_set = function(str) {
     };
 
-    ext.vco0_tone = function(freq) {
+    ext.vco0_freq = function(freq) {
        vco0.frequency.value = freq;
     };
     ext.vco0_gain = function(gain) {
        vco0gain.gain.value = gain;
     };
-    ext.vco0_wave = function(type) {
-       vco0.type = type;
+    ext.vco0_wave = function(wtype) {
+       vco0.type = wtype;
     };
     ext.vco0_on = function() {
        vco0.start(0);
@@ -147,7 +147,7 @@
             [' ', 'vco0 set WaveType %m.waveType', 'vco0_wave', 'sine'],
             [' ', 'vco1 On', 'vco1_on'],
             [' ', 'vco1 Off', 'vco1_off'],
-            [' ', 'vco1 set Freq %n', 'vco1_tone', 440],
+            [' ', 'vco1 set Freq %n', 'vco1_freq', 440],
             [' ', 'vco1 set Volume %n', 'vco1_gain', 50],
             [' ', 'vco1 set WaveType %m.waveType', 'vco1_wave', 'sine'],
             [' ', 'lfo set Freq %n', 'lfo_freq', 2],
