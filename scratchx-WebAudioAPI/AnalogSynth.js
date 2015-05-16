@@ -57,13 +57,13 @@
     //オブジェクトの初期設定
     vco0.type = 'sine';
     vco0.frequency.value = 440;
-    vco0gain.gain.value = 50;
+    vco0gain.gain.value = 10;
     vco1.type = 'sine';
-    vco1.frequency.value = 1320;
-    vco1gain.gain.value = 30;
-
-//    vco0.start(0);
-//    vco1.start(0);
+    vco1.frequency.value = 220;
+    vco1gain.gain.value = 10;
+s
+    vco0.start(0);
+    vco1.start(0);
     lfo.start(0);
 
     //オブジェクトの接続
@@ -89,7 +89,9 @@
 
     // blockが呼び出された時に呼ばれる関数を登録する。
     // 下にあるdescriptorでブロックと関数のひも付けを行っている。
-    ext.vco0_set = function(str) {
+
+    ext.obj_freq = function(obj,freq) {
+       eval(obj).frequency.value = freq;
     };
 
     ext.vco0_freq = function(freq) {
@@ -97,6 +99,9 @@
     };
     ext.vco0_gain = function(gain) {
        vco0gain.gain.value = gain;
+    };
+    ext.vco0_detune = function(diffcent) {
+       vco0.detune = diffcent;
     };
     ext.vco0_wave = function(wtype) {
        vco0.type = wtype;
@@ -140,23 +145,26 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
+            [' ', '%m.node set Freq %n Hz', 'obj_wave', 'vco0','440'],
             [' ', 'vco0 On', 'vco0_on'],
             [' ', 'vco0 Off', 'vco0_off'],
-            [' ', 'vco0 set Freq %n', 'vco0_freq', 440],
+            [' ', 'vco0 set Freq %n Hz', 'vco0_freq', 440],
+            [' ', 'vco0 set detune %n cent', 'vco0_detune', 440],
             [' ', 'vco0 set Volume %n', 'vco0_gain', 50],
             [' ', 'vco0 set WaveType %m.waveType', 'vco0_wave', 'sine'],
             [' ', 'vco1 On', 'vco1_on'],
             [' ', 'vco1 Off', 'vco1_off'],
-            [' ', 'vco1 set Freq %n', 'vco1_freq', 440],
+            [' ', 'vco1 set Freq %n Hz', 'vco1_freq', 440],
             [' ', 'vco1 set Volume %n', 'vco1_gain', 50],
             [' ', 'vco1 set WaveType %m.waveType', 'vco1_wave', 'sine'],
-            [' ', 'lfo set Freq %n', 'lfo_freq', 2],
+            [' ', 'lfo set Freq %n' Hz, 'lfo_freq', 2],
             [' ', 'lfo On', 'lfo_on'],
             [' ', 'lfo Off', 'lfo_off'],
-            [' ', 'vcf set Freq %n', 'vcf_freq', 8000]
+            [' ', 'vcf set Freq %n Hz', 'vcf_freq', 8000]
         ],
         menus: {
-            waveType: ["sine", "square", "sawtooth", "triangle"]
+            waveType: ["sine", "square", "sawtooth", "triangle"],
+            node: ["vco0", "vco1", "lfo", "vcf"]
         }
     };
 
